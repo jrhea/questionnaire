@@ -1,0 +1,243 @@
+<html>
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Assesment</title>
+
+  <script src="components/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="components/bower_components/paper-styles/paper-styles.html">
+  <link rel="import" href="components/bower_components/paper-styles/demo-pages.html">
+  <link rel="import" href="components/bower_components/iron-icons/iron-icons.html">
+  <link rel="import" href="components/bower_components/iron-icons/image-icons.html">
+  <link rel="import" href="components/bower_components/paper-button/paper-button.html">
+  <link rel="import" href="components/bower_components/paper-radio-group/paper-radio-group.html">
+  <link rel="import" href="components/bower_components/paper-radio-button/paper-radio-button.html">
+  <link rel="import" href="components/bower_components/iron-selector/iron-selector.html">
+  <link rel="import" href="components/bower_components/iron-pages/iron-pages.html">
+  <link rel="import" href="components/bower_components/neon-animation/neon-animations.html">
+  <link rel="import" href="components/bower_components/neon-animation/neon-animatable.html">
+  <link rel="import" href="components/bower_components/neon-animation/neon-animated-pages.html">
+  <link rel="import" href="components/bower_components/paper-dialog/paper-dialog.html">
+  <link rel="import" href="components/bower_components/paper-item/paper-item.html">
+  <link rel="import" href="components/bower_components/paper-item/paper-item-body.html">
+  <link rel="import" href="components/bower_components/paper-item/paper--item.html">
+
+  <style is="custom-style">
+    .horizontal-section {
+
+    }
+
+    paper-button {
+      display: block;
+      margin-bottom: 24px;
+      text-transform: none;
+    }
+
+    paper-button.left {
+      text-align: left;
+    }
+    paper-button.left:hover {
+      color: var(--paper-light-blue-500);
+      --paper-button-flat-focus-color: var(--paper-light-blue-50);
+    }
+
+    paper-button[toggles] {
+      transition: background-color 0.3s;
+    }
+
+    paper-button[toggles][active] {
+      background-color: rgba(0, 0, 0, 0.25);
+    }
+
+    paper-button.blue {
+      color: var(--paper-light-blue-500);
+      --paper-button-flat-focus-color: var(--paper-light-blue-50);
+    }
+    paper-button.blue:hover {
+      background: var(--paper-light-blue-50);
+    }
+
+    paper-button.hover:hover {
+      background: var(--paper-light-blue-50);
+    }
+
+    paper-button.ripple::shadow paper-ripple {
+      color: var(--paper-light-blue-500);
+    }
+
+    paper-button.ripple paper-ripple {
+      color: var(--paper-light-blue-500);
+    }
+
+    paper-radio-button.blue {
+      --paper-radio-button-checked-color: var(--paper-light-blue-500);
+      --paper-radio-button-checked-ink-color: var(--paper-light-blue-500);
+      --paper-radio-button-unchecked-color: var(--paper-light-blue-900);
+      --paper-radio-button-unchecked-ink-color: var(--paper-light-blue-900);
+    }
+
+    paper-radio-group {
+      padding: 8px;
+    }
+    paper-radio-button {
+      display: block;
+
+    }
+
+    iron-pages[selected] >{
+      background-color: white;
+      font-size: 25px;
+    }
+
+    iron-selector >{
+     padding: 8px;
+    }
+
+    .iron-selected {
+      background-color: var(--paper-light-blue-50);
+      transition: var(--paper-light-blue-50) 3s;
+    }
+
+    paper-dialog.modal {
+      width: 40%;
+      height: 60%;
+    }
+
+
+    neon-animatable[selected] >{
+      background-color: white;
+      width: 75%;
+      height: 80%;
+      font-size: 25px;
+
+    }
+
+
+  </style>
+
+</head>
+<body onload="loadDialog()">
+  <paper-dialog id="modal" class="modal" modal with-backdrop entry-animation="scale-up-animation" exit-animation="scale-down-animation" with-backdrop>
+    <h1 padding = 10px >Please select a test:</h1>
+      <div><paper-button id="full" disabled name="a" class="left hover" dialog-confirm raised>Full</paper-button></div>
+      <div><paper-button id="depression" disabled name="b" class="left hover" dialog-confirm raised>Depression</paper-button></div>
+      <div><paper-button id="anxiety" disabled name="c" class="left hover" dialog-confirm raised>Anxiety</paper-button></div>
+      <div><paper-button id="wellbeing" disabled name="d" class="left hover" dialog-confirm raised>Wellbeing</paper-button></div>
+      <div><paper-button id="screening" name="e" class="left hover" dialog-confirm raised>Screening</paper-button></div>
+  </paper-dialog>
+
+    <neon-animated-pages id="pages" class="horizontal center-justified layout" selected="[[selected]]" entry-animation="[[entryAnimation]]" exit-animation="[[exitAnimation]]">
+      <neon-animatable>
+      </neon-animatable>
+      <neon-animatable>
+        <div class="horizontal-section">
+        <h4>Over the past two weeks, how often have you had little interest or pleasure in doing things?</h4>
+        <paper-radio-group>
+          <paper-radio-button name="a" class="blue">Not at all</paper-radio-button>
+          <paper-radio-button name="b" class="blue">Several days</paper-radio-button>
+          <paper-radio-button name="c" class="blue">More than half the days</paper-radio-button>
+          <paper-radio-button name="d" class="blue">Nearly every day</paper-radio-button>
+        </paper-radio-group>
+          <div class="horizontal layout">
+            <paper-button id="previous" raised disabled><iron-icon icon="image:navigate-before"></iron-icon>prev</paper-button>
+            <paper-button id="next" raised class="blue">next<iron-icon icon="image:navigate-next"></iron-icon></paper-button>
+          </div>
+        </div>
+      </neon-animatable>
+      <neon-animatable>
+        <div class="horizontal-section">
+        <h4>Over the past two weeks, how often have you felt down, depressed, or hopeless?</h4>
+          <paper-radio-group>
+            <paper-radio-button name="a" class="blue">Not at all</paper-radio-button>
+            <paper-radio-button name="b" class="blue">Several days</paper-radio-button>
+            <paper-radio-button name="c" class="blue">More than half the days</paper-radio-button>
+            <paper-radio-button name="d" class="blue">Nearly every day</paper-radio-button>
+          </paper-radio-group>
+          <div class="horizontal layout">
+            <paper-button id="previous" raised class="blue"><iron-icon icon="image:navigate-before"></iron-icon>prev</paper-button>
+            <paper-button id="next" raised class="blue">next<iron-icon icon="image:navigate-next"></iron-icon></paper-button>
+          </div>
+        </div>
+      </neon-animatable>
+      <neon-animatable>
+        <div class="horizontal-section">
+        <h4>Over the past two weeks, how often have you felt nervous, anxious, or on edge?</h4>
+          <paper-radio-group>
+            <paper-radio-button name="a" class="blue">Not at all</paper-radio-button>
+            <paper-radio-button name="b" class="blue">Several days</paper-radio-button>
+            <paper-radio-button name="c" class="blue">More than half the days</paper-radio-button>
+            <paper-radio-button name="d" class="blue">Nearly every day</paper-radio-button>
+          </paper-radio-group>
+          <div class="horizontal layout">
+            <paper-button id="previous" raised class="blue"><iron-icon icon="image:navigate-before"></iron-icon>prev</paper-button>
+            <paper-button id="next" raised class="blue">next<iron-icon icon="image:navigate-next"></iron-icon></paper-button>
+          </div>
+        </div>
+      </neon-animatable>
+      <neon-animatable>
+        <div class="horizontal-section">
+        <h4>Over the past two weeks, how often have you been unable to stop or control worrying?</h4>
+          <paper-radio-group>
+            <paper-radio-button name="a" class="blue">Not at all</paper-radio-button>
+            <paper-radio-button name="b" class="blue">Several days</paper-radio-button>
+            <paper-radio-button name="c" class="blue">More than half the days</paper-radio-button>
+            <paper-radio-button name="d" class="blue">Nearly every day</paper-radio-button>
+          </paper-radio-group>
+          <div class="horizontal layout">
+            <paper-button id="previous" raised class="blue"><iron-icon icon="image:navigate-before"></iron-icon>prev</paper-button>
+            <paper-button id="finish" raised class="blue"><iron-icon icon="check"></iron-icon>finish</paper-button>
+          </div>
+        </div>
+      </neon-animatable>
+  </neon-animated-pages>
+
+
+
+<script>
+//var scope = document.querySelector('template[is="dom-bind"]');
+//scope.selected = 0;
+
+document.addEventListener('click', function(e) {
+  if(e.currentTarget.activeElement.id == "next")
+  {
+    var pages = document.querySelector('neon-animated-pages');
+    pages.entryAnimation = 'slide-from-right-animation';
+    pages.exitAnimation = 'slide-left-animation';
+    pages.selectNext();
+  }
+  else if (e.currentTarget.activeElement.id == "previous")
+  {
+    var pages = document.querySelector('neon-animated-pages');
+    pages.entryAnimation = 'slide-from-left-animation';
+    pages.exitAnimation = 'slide-right-animation';
+    pages.selectPrevious();
+  }
+  else if (e.currentTarget.activeElement.id == "screening")
+  {
+    var pages = document.querySelector('neon-animated-pages');
+    pages.entryAnimation = 'slide-from-right-animation';
+    pages.exitAnimation = 'slide-left-animation';
+    pages.selectNext();
+  }
+  else if (e.currentTarget.activeElement.id == "finish")
+  {
+    loadDialog();
+  }
+});
+
+function loadDialog() {
+  var dialog = document.getElementById("modal");
+  if (dialog) {
+    var pages = document.querySelector('neon-animated-pages');
+    pages.selected="0";
+    dialog.open();
+  }
+}
+
+</script>
+</body>
+</html>
