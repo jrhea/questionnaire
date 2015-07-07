@@ -1,0 +1,77 @@
+Google Polymer Elements
+
+Pages:
+  iron-pages
+  Example:
+    <iron-pages selected="0">
+      <div>One</div>
+      <div>Two</div>
+      <div>Three</div>
+    </iron-pages>
+
+    <script>
+      document.addEventListener('click', function(e) {
+        var pages = document.querySelector('iron-pages');
+        pages.selectNext();
+      });
+    </script>
+
+Background:
+  paper-material
+   Properties: elevation
+   Example:
+     <paper-material elevation="3">
+       ... content ...
+     </paper-material>
+   Link:  https://elements.polymer-project.org/elements/paper-material?active=paper-material&view=demo:demo/index.html
+
+Questions:
+
+Answers:
+  paper-button
+    Properties: Toggleable, Ripple (black 25% opacity)
+    Example:
+      HTML
+      <paper-button>
+        <core-icon icon="favorite"></core-icon>
+          answer text
+      </paper-button>
+
+      CSS
+      /* make #my-button white with black text */
+      #my-button {
+        background: white;
+        color: black;
+      }
+
+    Link:  https://elements.polymer-project.org/elements/paper-button?view=demo:demo/index.html
+
+
+Next Button:
+  paper-button
+    Properties:  Raised, Ripple (blue 25% opacity)
+  Example:
+    HTML
+    <paper-button raised>
+      <core-icon icon="favorite"></core-icon>
+        answer text
+    </paper-button>
+
+    CSS
+    /* make #my-button blue with white text */
+    #my-button {
+      background: blue;
+      color: white;
+    }
+
+    
+Page Transition:
+  neon-animation: slide-from-left-animation
+
+  Example:
+    {
+      name: 'slide-from-left-animation',
+      node: <node>,
+      transformOrigin: <transform-origin>,
+      timing: <animation-timing>
+    }

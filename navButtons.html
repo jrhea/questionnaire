@@ -1,0 +1,6 @@
+<div class="horizontal layout">
+  <paper-button id="previousDisabled" raised disabled ng-show="currentId==0"><iron-icon icon="image:navigate-before"></iron-icon>prev</paper-button>
+  <paper-button id="previous" raised class="blue" ng-show="currentId!=0" ng-click="previous()"><iron-icon icon="image:navigate-before"></iron-icon>prev</paper-button>
+  <paper-button id="next" raised class="blue" ng-show="currentId!=numQuestions-1" ng-click="next()">next<iron-icon icon="image:navigate-next"></iron-icon></paper-button>
+  <paper-button id="finish" raised class="blue" ng-show="currentId==numQuestions-1" ng-click="finish()"><iron-icon icon="check"></iron-icon>finish</paper-button>
+</div>

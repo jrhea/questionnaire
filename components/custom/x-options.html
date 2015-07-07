@@ -1,0 +1,25 @@
+<link rel="import" href="../../components/bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../components/bower_components/polymer/polymer.html">
+<polymer-element name="x-options">
+  <template>
+    <template repeat="{{option in options}}">
+      <paper-radio-button name="{{option.id}}" class="blue">{{option.text}}</paper-radio-button>
+    </template>
+  </template>
+  <script>
+    Polymer('x-options',{
+      options: [],
+      ready: function() {
+        this.options =  [
+        {id:'0',text:'Not at all',isSelected:false},
+        {id:'1',text:'Several days',isSelected:false},
+        {id:'2',text:'More than half the days',isSelected:false},
+        {id:'3',text:'Nearly every day',isSelected:false}
+        ]
+      }
+    });
+    function registerCallback() {
+      var XFoo = "foo";
+      }
+  </script>
+</polymer-element>
