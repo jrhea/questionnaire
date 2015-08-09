@@ -1,0 +1,114 @@
+<!-- <link rel="import" href="../../components/bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../components/bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../components/bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../components/bower_components/paper-styles/color.html">
+<link rel="import" href="../../components/bower_components/polymer/polymer.html">
+<link rel="import" href="../../components/bower_components/neon-animation/neon-animations.html">
+<link rel="import" href="../../components/bower_components/neon-animation/neon-animatable.html">
+<link rel="import" href="../../components/bower_components/neon-animation/neon-animated-pages.html">
+<link rel="import" href="../../components/bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../../components/bower_components/iron-pages/iron-pages.html"> -->
+<link rel="import" href="../../components/bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../components/bower_components/paper-styles/demo-pages.html">
+<link rel="import" href="../../components/bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../components/bower_components/iron-icons/image-icons.html">
+<link rel="import" href="../../components/bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../components/bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../../components/bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../../components/bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../../components/bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../components/bower_components/neon-animation/neon-animations.html">
+<link rel="import" href="../../components/bower_components/neon-animation/neon-animatable.html">
+<link rel="import" href="../../components/bower_components/neon-animation/neon-animated-pages.html">
+<link rel="import" href="../../components/bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../components/bower_components/paper-item/paper-item-body.html">
+<link rel="import" href="../../components/bower_components/polymer/polymer-micro.html">
+<link rel="import" href="../../components/custom/x-options.html">
+<dom-module id="x-animated-pages">
+  <style>
+  .horizontal-section {
+      background-color: white;
+      padding-top: 6px;
+      padding-left: 12px;
+      @apply(--shadow-elevation-2dp);
+    }
+  iron-pages[selected] >{
+    background-color: white;
+    font-size: 25px;
+  }
+  iron-selector >{
+  padding: 8px;
+  }
+  neon-animatable[selected] >{
+    background-color: white;
+    width: 100%;
+    height: 100%;
+    font-size: 25px;
+  }
+  </style>
+  <template>
+    <neon-animated-pages id="pages" entry-animation="[[entryAnimation]]" exit-animation="[[exitAnimation]]">
+      <template is="dom-repeat" items="{{options}}">
+        <neon-animatable>
+          <div class="horizontal-section">
+            <h4 id="text">{{text}}</h4>
+            <x-options options="{{options}}"></x-options>
+          </div>
+        </neon-animatable>
+      </template>
+   </neon-animated-pages>
+  </template>
+  <script>
+    Polymer({
+      is:'x-animated-pages',
+      properties: {
+        text: String,
+        options: Array,
+        selection: String,
+        pagenumber: String,
+        entryAnimation: String,
+        exitAnimation: String
+      },
+      attached: function () {
+        this.async(function () {
+          this.pagenumber = 0;
+          this.$.pages.select(this.pagenumber);
+        });
+      },
+      selectNext: function(){
+        this.$.pages.entryAnimation = 'slide-from-right-animation';
+        this.$.pages.exitAnimation = 'slide-left-animation';
+        this.pagenumber++;
+        this.$.pages.select(this.pagenumber);
+      },
+      selectPrevious: function(){
+        this.$.pages.entryAnimation = 'slide-from-left-animation';
+        this.$.pages.exitAnimation = 'slide-right-animation';
+        this.pagenumber--;
+        this.$.pages.select(this.pagenumber);
+      },
+      click: function(e){
+        var model = e.model;
+        this.selection = model.get('item.type');
+      },
+      onhover: function(e){
+        // var element = e.currentTarget;
+        // if(element){
+        //   this.selection = element.id;
+        //   element.style.color = '#03a9f4';  //--paper-light-blue-500
+        //   element.style.background =  '#e1f5fe'; //--paper-light-blue-50
+        // }
+      },
+      onunhover: function(e){
+        // var element = e.currentTarget;
+        // if(element){
+        //   this.selection = '';
+        //   element.style.color = '';
+        //   element.style.background = '';
+        // }
+      },
+      ready: function() {
+      }
+    });
+  </script>
+</dom-module>

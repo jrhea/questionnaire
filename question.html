@@ -1,15 +1,2 @@
   <h4 id="question">{{question}}</h4>
-  <paper-radio-group>
-    <paper-radio-button name="0" class="blue">
-      <div ng-repeat="option in options" ng-show="option.id==0">{{option.text}}</div>
-    </paper-radio-button>
-    <paper-radio-button name="1" class="blue">
-      <div ng-repeat="option in options" ng-show="option.id==1">{{option.text}}</div>
-    </paper-radio-button>
-    <paper-radio-button name="2" class="blue">
-      <div ng-repeat="option in options" ng-show="option.id==2">{{option.text}}</div>
-    </paper-radio-button>
-    <paper-radio-button name="3" class="blue">
-      <div ng-repeat="option in options" ng-show="option.id==3">{{option.text}}</div>
-    </paper-radio-button>
-  </paper-radio-group>
+  <x-options options="{{options}}" ng-click="selectOption('selection')"></x-options>

@@ -10,12 +10,12 @@
 
   <!-- angularjs -->
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-route.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-route.min.js"></script>
 
   <!-- polymer components-->
   <script src="components/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-  <link rel="import" href="components/bower_components/paper-styles/paper-styles.html">
-  <link rel="import" href="components/bower_components/paper-styles/demo-pages.html">
+  <!-- <link rel="import" href="components/bower_components/paper-styles/paper-styles.html"> -->
+  <!-- <link rel="import" href="components/bower_components/paper-styles/demo-pages.html"> -->
   <link rel="import" href="components/bower_components/iron-icons/iron-icons.html">
   <link rel="import" href="components/bower_components/iron-icons/image-icons.html">
   <link rel="import" href="components/bower_components/paper-button/paper-button.html">
@@ -26,20 +26,50 @@
   <link rel="import" href="components/bower_components/neon-animation/neon-animations.html">
   <link rel="import" href="components/bower_components/neon-animation/neon-animatable.html">
   <link rel="import" href="components/bower_components/neon-animation/neon-animated-pages.html">
-  <link rel="import" href="components/bower_components/paper-dialog/paper-dialog.html">
   <link rel="import" href="components/bower_components/paper-item/paper-item.html">
   <link rel="import" href="components/bower_components/paper-item/paper-item-body.html">
+  <link rel="import" href="components/bower_components/polymer/polymer-micro.html">
 
-  <!-- <link rel="import" href="components/custom/x-options.html"> -->
+  <link rel="import" href="components/custom/x-menu-dialog.html">
+  <link rel="import" href="components/custom/x-animated-pages.html">
+  <link rel="import" href="components/custom/x-options.html">
   <script src="app.js"></script>
   <style is="custom-style">
-  		.horizontal-section {
-  		}
-  		paper-button {
-  			display: block;
-  			margin-bottom: 24px;
-  			text-transform: none;
-  		}
+  .horizontal-section {
+    }
+    div.table {
+      display: table;
+      padding: 24px;
+      margin-right: 24px;
+      min-width: 80%;
+      height: 300px;
+    }
+    div.tr1 {
+      border: 1px solid white;
+      display: table-row;
+      min-width: 100%;
+     }
+    div.td1 {
+      display: table-cell;
+      min-width: 100%;
+      height: 75%;
+
+    }
+    div.tr2 {
+      display: table-row;
+      min-width: 100%;
+     }
+    div.td2 {
+      border: 1px solid white;
+      display: table-cell;
+      padding-top: 12px;
+      padding-left: 12px;
+      min-width: 100%;
+      height: 25%;
+
+      background-color: white;
+      @apply(--shadow-elevation-2dp);
+    }
   		paper-button.left {
   			text-align: left;
   		}
@@ -81,10 +111,7 @@
   		paper-radio-button {
   			display: block;
   		}
-  		iron-pages[selected] >{
-  			background-color: white;
-  			font-size: 25px;
-  		}
+
   		iron-selector >{
   		padding: 8px;
   		}
@@ -92,24 +119,25 @@
   			background-color: var(--paper-light-blue-50);
   			transition: var(--paper-light-blue-50) 3s;
   		}
-  		paper-dialog.modal {
-  			width: 40%;
-  			height: 60%;
-  		}
-  		neon-animatable[selected] >{
-  			background-color: white;
-  			width: 75%;
-  			height: 80%;
-  			font-size: 25px;
-  		}
+
   </style>
 </head>
 
-<body ng-controller="menuController">
-  <div ng-view></div>
-  <!-- <div class="container">
-    <menu/>
-  </div> -->
+<body fullbleed vertical layout ng-controller="assessmentController" ng-init="init()">
+  <div flex layout ng-view></div>
 </body>
-
+   <!-- <body>
+     <neon-animated-pages id="pages" class="horizontal center-justified layout"  selected="0" entry-animation="[[entryAnimation]]" exit-animation="[[exitAnimation]]">
+       <neon-animatable>
+       <div class="horizontal-section">
+         <h1> Page 1 </h1>
+       </div>
+       </neon-animatable>
+       <neon-animatable>
+       <div class="horizontal-section">
+         <h1> Page 2 </h1>
+       </div>
+       </neon-animatable>
+     </neon-animated-pages>
+  </body> -->
 </html>

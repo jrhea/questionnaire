@@ -1,10 +1,1 @@
-<div ng-controller="menuController" ng-init="init()">
-	<paper-dialog id="modal" class="modal" modal with-backdrop entry-animation="scale-up-animation" exit-animation="scale-down-animation" with-backdrop>
-		<h1 padding = 10px >Please select a test:</h1>
-			<div><paper-button id="full" name="a" class="left hover" dialog-confirm raised ng-click="changeView('full')">Full</paper-button></div>
-			<div><paper-button id="depression" name="b" class="left hover" dialog-confirm raised ng-click="changeView('depression')">Depression</paper-button></div>
-			<div><paper-button id="anxiety" name="c" class="left hover" dialog-confirm raised ng-click="changeView('anxiety')">Anxiety</paper-button></div>
-			<div><paper-button id="wellbeing" name="d" class="left hover" dialog-confirm raised ng-click="changeView('wellbeing')">Wellbeing</paper-button></div>
-			<div><paper-button id="screening" name="e" class="left hover" dialog-confirm raised ng-click="changeView('screening')">Screening</paper-button></div>
-	</paper-dialog>
-</div>
+<x-menu-dialog text="Select an assessment:" options="{{assessmentTypes}}" ng-show="loadMenu()" ng-click="selectAssessment('selection')"></x-menu-dialog>

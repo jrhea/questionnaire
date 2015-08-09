@@ -1,0 +1,80 @@
+<link rel="import" href="../../components/bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../components/bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../components/bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../components/bower_components/paper-styles/color.html">
+<link rel="import" href="../../components/bower_components/polymer/polymer.html">
+<dom-module id="x-menu-dialog">
+  <style>
+  .button {
+    margin-bottom: 24px;
+    text-transform: none;
+  }
+  .left-text {
+    text-align: left;
+  }
+  .center{
+    top: 10%;
+    transform: translate(0,10%);
+  }
+  .hover:hover {
+    background: #e1f5fe; /*--paper-light-blue-50*/
+    color: #03a9f4;  /*--paper-light-blue-500*/
+  }
+  .stack {
+    display: inline-block;
+    width:100%;
+  }
+  .dialog-desktop {
+    width: 100%;
+    height: 100%;
+    /*margin-bottom: 10%;*/
+
+  }
+  </style>
+  <template>
+    <paper-dialog id="modal"  class="dialog-desktop" modal with-backdrop entry-animation="scale-up-animation" exit-animation="scale-down-animation" fit>
+      <div>
+      <h1>{{text}}</h1>
+      <template is="dom-repeat" items="{{options}}">
+        <paper-button id="{{item.type}}" class="button left-text hover stack" raised on-mouseover="onhover" on-mouseout="onunhover" on-click="click">{{item.type}}</paper-button>
+      </template>
+    </div>
+    </paper-dialog>
+  </template>
+  <script>
+    Polymer({
+      is:'x-menu-dialog',
+      properties: {
+        text: String,
+        options: Array,
+        selection: String
+      },
+      click: function(e){
+        var model = e.model;
+        this.selection = model.get('item.type');
+      },
+      onhover: function(e){
+        // var element = e.currentTarget;
+        // if(element){
+        //   this.selection = element.id;
+        //   element.style.color = '#03a9f4';  //--paper-light-blue-500
+        //   element.style.background =  '#e1f5fe'; //--paper-light-blue-50
+        // }
+      },
+      onunhover: function(e){
+        // var element = e.currentTarget;
+        // if(element){
+        //   this.selection = '';
+        //   element.style.color = '';
+        //   element.style.background = '';
+        // }
+      },
+      ready: function() {
+        var dialog = document.getElementById("modal");
+        if (dialog) {
+        	dialog.open();
+        }
+      }
+    });
+  </script>
+</dom-module>
