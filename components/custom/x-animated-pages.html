@@ -30,7 +30,12 @@
       background-color: white;
       padding-top: 6px;
       padding-left: 12px;
+      display: inline-block;
       @apply(--shadow-elevation-2dp);
+    }
+    .blue {
+      background-color: white; /*--paper-light-blue-50*/
+      color: #03a9f4;  /*--paper-light-blue-500*/
     }
   iron-pages[selected] >{
     background-color: white;
@@ -48,11 +53,15 @@
   </style>
   <template>
     <neon-animated-pages id="pages" entry-animation="[[entryAnimation]]" exit-animation="[[exitAnimation]]">
-      <template is="dom-repeat" items="{{options}}">
+      <template is="dom-repeat" items="{{assessment}}">
         <neon-animatable>
           <div class="horizontal-section">
-            <h4 id="text">{{text}}</h4>
-            <x-options options="{{options}}"></x-options>
+            <h4 id="question">{{item.question}}</h4>
+            <x-options options="{{item.options}}"></x-options>
+            <br></br>
+            <paper-button id="previous" raised disabled class="blue" on-click="selectPrevious"><iron-icon icon="image:navigate-before"></iron-icon>{{buttonPrevText}}</paper-button>
+            <paper-button id="next" raised class="blue" on-click="selectNext">{{buttonNextText}}<iron-icon icon="image:navigate-next"></iron-icon></paper-button>
+            <br></br>
           </div>
         </neon-animatable>
       </template>
@@ -62,30 +71,64 @@
     Polymer({
       is:'x-animated-pages',
       properties: {
-        text: String,
-        options: Array,
+        assessment: Array,
+        buttonPrevText: String,
+        buttonNextText: String,
         selection: String,
         pagenumber: String,
         entryAnimation: String,
-        exitAnimation: String
+        exitAnimation: String,
+        init: String
       },
       attached: function () {
         this.async(function () {
           this.pagenumber = 0;
+          this.buttonPrevText="prev";
+          this.buttonNextText="next";
+          this.init=1;
+          this.$.pages.entryAnimation = 'slide-from-left-animation';
+          this.$.pages.exitAnimation = 'slide-right-animation';
           this.$.pages.select(this.pagenumber);
         });
-      },
-      selectNext: function(){
-        this.$.pages.entryAnimation = 'slide-from-right-animation';
-        this.$.pages.exitAnimation = 'slide-left-animation';
-        this.pagenumber++;
-        this.$.pages.select(this.pagenumber);
       },
       selectPrevious: function(){
         this.$.pages.entryAnimation = 'slide-from-left-animation';
         this.$.pages.exitAnimation = 'slide-right-animation';
         this.pagenumber--;
+        this.setPrevButtonState(document.querySelectorAll('paper-button#previous'));
+        this.setNextButtonState();
         this.$.pages.select(this.pagenumber);
+      },
+      selectNext: function(){
+        this.$.pages.entryAnimation = 'slide-from-right-animation';
+        this.$.pages.exitAnimation = 'slide-left-animation';
+        this.pagenumber++;
+        this.setPrevButtonState(document.querySelectorAll('paper-button#previous'));
+        this.setNextButtonState();
+        this.$.pages.select(this.pagenumber);
+      },
+      setPrevButtonState: function(button){
+        if(button)
+        {
+          if(this.pagenumber == 0)
+          {
+              button[this.pagenumber].disabled = true;
+          }
+          else
+          {
+              button[this.pagenumber].disabled = false;
+          }
+        }
+      },
+      setNextButtonState: function(){
+        if(this.pagenumber == this.assessment.length-1)
+        {
+          this.buttonNextText = "finsh";
+        }
+        else
+        {
+          this.buttonNextText = "next";
+        }
       },
       click: function(e){
         var model = e.model;

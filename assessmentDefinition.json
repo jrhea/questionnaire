@@ -1,8 +1,8 @@
 {
   "questionTypes":
 {
-"PHQ9":{},
-"IDS_SR":{},
+"PHQ9":[],
+"IDS_SR":[],
 "GAD7":[
   {
     "question": "Over the past two weeks, how often have you felt nervous, anxious, or on edge?",

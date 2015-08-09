@@ -44,16 +44,9 @@ app.controller('assessmentController', function(assessmentFactory, sharedPropert
 	$scope.loadAssessment = function() {
 		$scope.sharedProperties = sharedProperties;
 		sharedProperties.assessment = assessmentFactory.getAssessment(sharedProperties.assessmentType);
-		$scope.loadQuestion();
-
-		// var pages = document.querySelector('x-animated-pages');
-		// pages.pagenumber = "0";
+		$scope.assessment = sharedProperties.assessment;
 	};
 
-	$scope.loadQuestion = function() {
-			$scope.question = sharedProperties.assessment[sharedProperties.currentId].question;
-			$scope.options = sharedProperties.assessment[sharedProperties.currentId].options;
-	};
 
 	$scope.selectOption = function(property) {
 		var element = document.querySelector("x-options");
@@ -68,8 +61,6 @@ app.controller('assessmentController', function(assessmentFactory, sharedPropert
 		sharedProperties.currentId++;
 		$scope.loadQuestion();
 		var pages = document.querySelector('x-animated-pages');
-		// pages.entryAnimation = 'slide-from-right-animation';
-		// pages.exitAnimation = 'slide-left-animation';
 		pages.selectNext();
 	};
 
@@ -77,8 +68,6 @@ app.controller('assessmentController', function(assessmentFactory, sharedPropert
 		sharedProperties.currentId--;
 		$scope.loadQuestion();
 		var pages = document.querySelector('x-animated-pages');
-		// pages.entryAnimation = 'slide-from-left-animation';
-		// pages.exitAnimation = 'slide-right-animation';
 		pages.selectPrevious();
 	};
 
