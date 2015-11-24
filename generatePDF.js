@@ -1,13 +1,13 @@
 
- function generatePDF() {
+ function generatePDF(session) {
   var result = "";
   var table = document.getElementById("summary");
   if(table.textContent.indexOf("{{session.type}}") === -1)
   {
     var pageWidth = 791.9; //11 inches in pt
   	var doc = new jsPDF('l', 'pt', 'letter');
-  	var patientInfo = "Patient Name: John Smith"
-  	var date =  "Date: November 23, 2015"
+  	var patientInfo = "Patient Name: " + session.firstName + " " + session.lastName;
+  	var date =  "Date: " + session.date;
   	var header = function (data) {
   		doc.setFontSize(10);
   		doc.setTextColor(40);

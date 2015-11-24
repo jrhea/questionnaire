@@ -33,18 +33,21 @@
   </style>
   <template>
     <paper-dialog id="modal"  class="dialog-desktop" modal with-backdrop entry-animation="scale-up-animation" exit-animation="scale-down-animation" fit>
-      <div>
-      <h1>{{text}}</h1>
+      <div class="vertical center-justified layout">
+      <h3>{{text}}</h3>
+      <div class="vertical-section">
       <template is="dom-repeat" items="{{options}}">
         <paper-button id="{{item.type}}" class="button left-text hover stack" raised on-mouseover="onhover" on-mouseout="onunhover" on-click="click">{{item.type}}</paper-button>
       </template>
-    </div>
+      </div>
+      </div>
     </paper-dialog>
   </template>
   <script>
     Polymer({
       is:'x-menu-dialog',
       properties: {
+        session: Object,
         text: String,
         options: Array,
         selection: String

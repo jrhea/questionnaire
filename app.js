@@ -11,20 +11,25 @@ app.config(['$routeProvider',function($routeProvider) {
 	.when('/summary', {
 		templateUrl : 'summary.html',
 	})
+	.when('/userinfo', {
+		templateUrl : 'userinfo.html',
+	})
 	.otherwise({
 		templateUrl: 'assessment.html'
 	});
 }]);
 
 app.controller('assessmentController', function(assessmentFactory, sharedProperties, $scope, $routeParams, $location,$http){
-	$scope.pdfString === "";
+	$scope.pdfString = "";
+	$scope.assessmentType = "";
+	$scope.assessmentTypes = [];
 	$scope.init = function() {
 		assessmentFactory.init($http);
 		$location.path('/');
 	};
 
 	$scope.loadMenu = function(){
-		$scope.assessmentTypes = assessmentFactory.getAssessmentTypes();
+			$scope.assessmentTypes = assessmentFactory.getAssessmentTypes();
 		return true;
 	};
 
@@ -32,12 +37,24 @@ app.controller('assessmentController', function(assessmentFactory, sharedPropert
 		var element = document.querySelector("x-menu-dialog");
 		if(element){
 			$scope.assessmentType = element.get(property);
-			$location.path($scope.assessmentType);
+			if($scope.assessmentType != undefined)
+			{
+				$scope.session = assessmentFactory.loadSession($scope.assessmentType);
+				$location.path('/userinfo');
+				$scope.session.module = "userInfo";
+			}
 		}
 	};
 
+	$scope.loadUserInfo = function(){
+		return true;
+	};
+
+	$scope.submitUserInfo = function(){
+		$location.path($scope.assessmentType);
+	};
 	$scope.loadAssessment = function() {
-		$scope.session = assessmentFactory.loadSession($scope.assessmentType);
+
 	};
 
 	$scope.notify = function(componentType) {
@@ -47,15 +64,27 @@ app.controller('assessmentController', function(assessmentFactory, sharedPropert
 		{
 			//update session variable from View
 			$scope.session = component.session;
-			selection = $scope.session.questions[$scope.session.index].selection;
-			if(selection == -1 && ( $scope.session.eventType == "selectNext" || $scope.session.eventType == "selectFinish"))
+			if($scope.session.module == "userInfo")
 			{
-				//TODO: Force user to make selection
+				if($scope.session.eventType == "submitUserInfo")
+				{
+						$location.path('/assessment');
+						this.session.module = "assessment";
+				}
 			}
-	    if($scope.session.eventType == "selectFinish")
+			else if($scope.session.module == "assessment")
 			{
-					//generate pdf
-					$location.path('/summary');
+				selection = $scope.session.questions[$scope.session.index].selection;
+				if(selection == -1 && ( $scope.session.eventType == "selectNext" || $scope.session.eventType == "selectFinish"))
+				{
+					//TODO: Force user to make selection
+				}
+		    if($scope.session.eventType == "selectFinish")
+				{
+						//generate pdf
+						$location.path('/summary');
+						this.session.module = "summary";
+				}
 			}
 		}
 	};
@@ -70,7 +99,7 @@ app.controller('assessmentController', function(assessmentFactory, sharedPropert
 		}
 	};
 	$scope.loadPDF = function(){
-		$scope.pdfString = generatePDF();
+		$scope.pdfString = generatePDF($scope.session);
 		if ( $scope.pdfString === "")
 		{
 			return false;
@@ -117,6 +146,7 @@ app.factory('assessmentFactory', function($http) {
 	assessmentFactory.loadSession = function(type) {
 		session.type = type;
 		session.questions = this.getQuestions(type);
+		session.date = new Date().toLocaleDateString();
 		return session;
 	};
   return assessmentFactory;
