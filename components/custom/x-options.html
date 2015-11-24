@@ -22,7 +22,7 @@
   </style>
   <template>
       <paper-radio-group>
-      <template is="dom-repeat" items="{{options}}">
+      <template is="dom-repeat" items="{{question.options}}">
         <paper-radio-button class="hover blue stack" id="{{item.id}}" name="{{item.id}}" on-mouseover="onhover" on-mouseout="onunhover" on-click="click">{{item.text}}</paper-radio-button>
       </template>
       </paper-radio-group>
@@ -32,12 +32,15 @@
       is:'x-options',
       properties: {
         text: String,
-        options: Array,
-        selection: String
       },
       click: function(e){
           var model = e.model;
-          this.selection = model.get('item.id');
+          var selection = -1;
+          if(model){
+              selection = model.get('item.id');
+              this.question.options[selection].isSelected = true;
+              this.question.selection = selection;
+            }
       },
       onhover: function(e){
         // var element = e.currentTarget;

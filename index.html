@@ -27,12 +27,20 @@
   <link rel="import" href="components/bower_components/paper-item/paper-item.html">
   <link rel="import" href="components/bower_components/paper-item/paper-item-body.html">
   <link rel="import" href="components/bower_components/polymer/polymer-micro.html">
-
+  <!-- jspdf -->
+  <script src="components/bower_components/jspdf/dist/jspdf.min.js"></script>
+  <script src="components/bower_components/jspdf-autotable/jspdf.plugin.autotable.js"></script>
+  <script type="text/javascript" src="generatePDF.js"></script>
   <!-- custom components-->
   <link rel="import" href="components/custom/x-menu-dialog.html">
   <link rel="import" href="components/custom/x-animated-pages.html">
   <link rel="import" href="components/custom/x-options.html">
-  
+  <link rel="import" href="components/custom/x-pdf.html">
+
+
+
+
+  <!--main code-->
   <script src="app.js"></script>
 </head>
 <body fullbleed vertical layout ng-controller="assessmentController" ng-init="init()">

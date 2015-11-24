@@ -1,13 +1,6 @@
 var app = angular.module('assessment', ['ngRoute'])
 .service('sharedProperties', function () {
-		var _assessmentType = '';
-		var _currentId = 0;
-		var _assessment = {};
-		var _assessmentTypes = [];
-		this.currentId = _currentId;
-		this.assessmentType = _assessmentType;
-		this.assessment = _assessment;
-		this.assessmentTypes = _assessmentTypes;
+
 });
 
 app.config(['$routeProvider',function($routeProvider) {
@@ -15,13 +8,16 @@ app.config(['$routeProvider',function($routeProvider) {
 	.when('/', {
 		templateUrl : 'menu.html',
 	})
+	.when('/summary', {
+		templateUrl : 'summary.html',
+	})
 	.otherwise({
 		templateUrl: 'assessment.html'
 	});
 }]);
 
 app.controller('assessmentController', function(assessmentFactory, sharedProperties, $scope, $routeParams, $location,$http){
-
+	$scope.pdfString === "";
 	$scope.init = function() {
 		assessmentFactory.init($http);
 		$location.path('/');
@@ -35,48 +31,53 @@ app.controller('assessmentController', function(assessmentFactory, sharedPropert
 	$scope.selectAssessment = function(property){
 		var element = document.querySelector("x-menu-dialog");
 		if(element){
-			assessmentType = element.get(property);
+			$scope.assessmentType = element.get(property);
+			$location.path($scope.assessmentType);
 		}
-		sharedProperties.assessmentType = assessmentType;
-		$location.path(assessmentType);
 	};
 
 	$scope.loadAssessment = function() {
-		$scope.sharedProperties = sharedProperties;
-		sharedProperties.assessment = assessmentFactory.getAssessment(sharedProperties.assessmentType);
-		$scope.assessment = sharedProperties.assessment;
+		$scope.session = assessmentFactory.loadSession($scope.assessmentType);
 	};
 
-
-	$scope.selectOption = function(property) {
-		var element = document.querySelector("x-options");
-		if(element){
-			var id = element.get(property);
-			sharedProperties.assessment[sharedProperties.currentId].options[id].isSelected=true;
-			sharedProperties.assessment[sharedProperties.currentId].selection=id;
+	$scope.notify = function(componentType) {
+		var selection = -1;
+		var component = document.querySelector(componentType);
+		if(component)
+		{
+			//update session variable from View
+			$scope.session = component.session;
+			selection = $scope.session.questions[$scope.session.index].selection;
+			if(selection == -1 && ( $scope.session.eventType == "selectNext" || $scope.session.eventType == "selectFinish"))
+			{
+				//TODO: Force user to make selection
+			}
+	    if($scope.session.eventType == "selectFinish")
+			{
+					//generate pdf
+					$location.path('/summary');
+			}
 		}
-	}
-
-	$scope.next = function() {
-		sharedProperties.currentId++;
-		$scope.loadQuestion();
-		var pages = document.querySelector('x-animated-pages');
-		pages.selectNext();
 	};
 
-	$scope.previous = function() {
-		sharedProperties.currentId--;
-		$scope.loadQuestion();
-		var pages = document.querySelector('x-animated-pages');
-		pages.selectPrevious();
+	$scope.loadSummary = function(){
+		var question = {};
+		var numQuestions = $scope.session.questions.length;
+		for(var i=0;i<numQuestions;i++)
+		{
+			question = $scope.session.questions[i];
+			$scope.session.score += question.options[question.selection].value;
+		}
 	};
-
-	$scope.finish = function() {
-		$scope.saveResults();
-	};
-
-  $scope.saveResults = function() {
-
+	$scope.loadPDF = function(){
+		$scope.pdfString = generatePDF();
+		if ( $scope.pdfString === "")
+		{
+			return false;
+		}
+		else {
+			return true
+		}
 	};
 
 });
@@ -85,12 +86,15 @@ app.controller('assessmentController', function(assessmentFactory, sharedPropert
 app.factory('assessmentFactory', function($http) {
 	var assessmentFactory = {};
 	var assessmentDefinition = {};
-	var assessment = {};
+	var session = {};
 
 	assessmentFactory.init = function(http) {
 	  http.get('assessmentDefinition.json').success(function(json){
 			assessmentDefinition = json;
 	  });
+		http.get('session.json').success(function(json){
+				session = json;
+		});
 	};
   assessmentFactory.getAssessmentTypes = function() {
 		var types = [];
@@ -100,14 +104,20 @@ app.factory('assessmentFactory', function($http) {
 		}
 		return types;
 	}
-	assessmentFactory.getAssessment = function(type) {
-		var assessment = [];
+	assessmentFactory.getQuestions = function(type) {
+		var questions = [];
 		for(index in assessmentDefinition.assessmentTypes[type])
 		{
 			var questionType = assessmentDefinition.assessmentTypes[type][index];
-			assessment = assessment.concat(assessmentDefinition.questionTypes[questionType]);
+			questions = questions.concat(assessmentDefinition.questionTypes[questionType]);
 		}
-		return assessment;
+		return questions;
+	};
+
+	assessmentFactory.loadSession = function(type) {
+		session.type = type;
+		session.questions = this.getQuestions(type);
+		return session;
 	};
   return assessmentFactory;
 });

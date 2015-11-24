@@ -1,0 +1,28 @@
+<div ng-init="loadSummary()" ng-show="false">
+<table id="summary">
+<thead>
+<tr>
+  <th>{{session.type}} Assessment Questions</th>
+  <th>Selection</th>
+  <th>Value</th>
+  <th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr ng-repeat="question in session.questions">
+  <td>{{question.text}}</td>
+  <td>{{question.options[question.selection].text}}</td>
+  <td>{{question.options[question.selection].value}}</td>
+  <td>                                                                                                                                  </td>
+</tr>
+  <td>Score: </td>
+  <td></td>
+  <td>{{session.score}}</td>
+  <td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div ng-show="loadPDF()" style="width: 100%; height: 100%;">
+    <x-pdf data="{{pdfString}}" style="width: 100%; height: 100%;"></x-pdf> 
+</div>

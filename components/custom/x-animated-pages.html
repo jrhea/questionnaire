@@ -1,13 +1,3 @@
-<!-- <link rel="import" href="../../components/bower_components/paper-dialog/paper-dialog.html">
-<link rel="import" href="../../components/bower_components/paper-button/paper-button.html">
-<link rel="import" href="../../components/bower_components/paper-styles/paper-styles.html">
-<link rel="import" href="../../components/bower_components/paper-styles/color.html">
-<link rel="import" href="../../components/bower_components/polymer/polymer.html">
-<link rel="import" href="../../components/bower_components/neon-animation/neon-animations.html">
-<link rel="import" href="../../components/bower_components/neon-animation/neon-animatable.html">
-<link rel="import" href="../../components/bower_components/neon-animation/neon-animated-pages.html">
-<link rel="import" href="../../components/bower_components/iron-selector/iron-selector.html">
-<link rel="import" href="../../components/bower_components/iron-pages/iron-pages.html"> -->
 <link rel="import" href="../../components/bower_components/paper-styles/paper-styles.html">
 <link rel="import" href="../../components/bower_components/paper-styles/demo-pages.html">
 <link rel="import" href="../../components/bower_components/iron-icons/iron-icons.html">
@@ -53,11 +43,11 @@
   </style>
   <template>
     <neon-animated-pages id="pages" entry-animation="[[entryAnimation]]" exit-animation="[[exitAnimation]]">
-      <template is="dom-repeat" items="{{assessment}}">
+      <template is="dom-repeat" items="{{session.questions}}">
         <neon-animatable>
           <div class="horizontal-section">
-            <h4 id="question">{{item.question}}</h4>
-            <x-options options="{{item.options}}"></x-options>
+            <h4 id="text">{{item.text}}</h4>
+            <x-options on-click="click" question="{{item}}"></x-options>
             <br></br>
             <paper-button id="previous" raised disabled class="blue" on-click="selectPrevious"><iron-icon icon="image:navigate-before"></iron-icon>{{buttonPrevText}}</paper-button>
             <paper-button id="next" raised class="blue" on-click="selectNext">{{buttonNextText}}<iron-icon icon="image:navigate-next"></iron-icon></paper-button>
@@ -71,59 +61,62 @@
     Polymer({
       is:'x-animated-pages',
       properties: {
-        assessment: Array,
+        session: Object,
         buttonPrevText: String,
         buttonNextText: String,
-        selection: String,
-        pagenumber: String,
         entryAnimation: String,
-        exitAnimation: String,
-        init: String
+        exitAnimation: String
       },
       attached: function () {
         this.async(function () {
-          this.pagenumber = 0;
           this.buttonPrevText="prev";
           this.buttonNextText="next";
-          this.init=1;
           this.$.pages.entryAnimation = 'slide-from-left-animation';
           this.$.pages.exitAnimation = 'slide-right-animation';
-          this.$.pages.select(this.pagenumber);
+          this.$.pages.select(this.session.index);
         });
       },
       selectPrevious: function(){
         this.$.pages.entryAnimation = 'slide-from-left-animation';
         this.$.pages.exitAnimation = 'slide-right-animation';
-        this.pagenumber--;
+        this.session.index--;
+        this.session.eventType = "selectPrevious";
         this.setPrevButtonState(document.querySelectorAll('paper-button#previous'));
         this.setNextButtonState();
-        this.$.pages.select(this.pagenumber);
+        this.$.pages.select(this.session.index);
       },
       selectNext: function(){
-        this.$.pages.entryAnimation = 'slide-from-right-animation';
-        this.$.pages.exitAnimation = 'slide-left-animation';
-        this.pagenumber++;
-        this.setPrevButtonState(document.querySelectorAll('paper-button#previous'));
-        this.setNextButtonState();
-        this.$.pages.select(this.pagenumber);
+        if(this.session.index != this.session.questions.length-1){
+          this.$.pages.entryAnimation = 'slide-from-right-animation';
+          this.$.pages.exitAnimation = 'slide-left-animation';
+          this.session.index++;
+          this.session.eventType = "selectNext";
+          this.setPrevButtonState(document.querySelectorAll('paper-button#previous'));
+          this.setNextButtonState();
+          this.$.pages.select(this.session.index);
+        }
+        else {
+          this.session.eventType = "selectFinish";
+        }
+
       },
       setPrevButtonState: function(button){
         if(button)
         {
-          if(this.pagenumber == 0)
+          if(this.session.index == 0)
           {
-              button[this.pagenumber].disabled = true;
+              button[this.session.index].disabled = true;
           }
           else
           {
-              button[this.pagenumber].disabled = false;
+              button[this.session.index].disabled = false;
           }
         }
       },
       setNextButtonState: function(){
-        if(this.pagenumber == this.assessment.length-1)
+        if(this.session.index == this.session.questions.length-1)
         {
-          this.buttonNextText = "finsh";
+          this.buttonNextText = "finish";
         }
         else
         {
@@ -132,7 +125,6 @@
       },
       click: function(e){
         var model = e.model;
-        this.selection = model.get('item.type');
       },
       onhover: function(e){
         // var element = e.currentTarget;
