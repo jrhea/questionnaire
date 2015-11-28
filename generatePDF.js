@@ -2,7 +2,7 @@
  function generatePDF(session) {
   var result = "";
   var table = document.getElementById("summary");
-  if(table.textContent.indexOf("{{session.type}}") === -1)
+  if(table.textContent.indexOf("{{") === -1 && session.eventType !== "reportGenerated")
   {
     var pageWidth = 791.9; //11 inches in pt
   	var doc = new jsPDF('l', 'pt', 'letter');
@@ -74,14 +74,10 @@
   			},
   			startY: 30,
   			margin: 10,
-  			theme: 'striped'//,
-  			//tableWidth: 'auto'
+  			theme: 'striped'
   		});
       //	doc.save('foo.pdf');
-      result = doc.output('datauristring');
-      //var x = window.open();
-      //x.document.open();
-      //x.document.location=string;
+      result = doc.output('dataurlnewwindow');
       return result;
   }
   else {

@@ -99,14 +99,15 @@ app.controller('assessmentController', function(assessmentFactory, sharedPropert
 		}
 	};
 	$scope.loadPDF = function(){
+		var result = false;
 		$scope.pdfString = generatePDF($scope.session);
-		if ( $scope.pdfString === "")
+		if ( $scope.pdfString != "" && $scope.session.eventType != "reportGenerated")
 		{
-			return false;
+			//kludge to prevent pdf from being generated before it is ready
+			$scope.session.eventType = "reportGenerated";
+			result = true;
 		}
-		else {
-			return true
-		}
+		return result;
 	};
 
 });
