@@ -1,0 +1,73 @@
+* {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    line-height: 0 !important;
+}
+
+.h1, .h2, .h3, h1, h2, h3 {
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+.h4, .h5, .h6, h4, h5, h6 {
+    font-size: 14px !important;
+}
+
+body {
+    background-color: #fff !important;
+}
+
+.btn-green {
+  background-color: #1ab394;
+  color: #fff;
+  border-radius: 3px;
+}
+
+.btn-green:hover, .btn-green:focus {
+    background-color: #18a689;
+    color: #fff;
+}
+
+.panel-footer {
+    text-align: right;
+    background-color: #fff;
+}
+
+.my-rating {
+    font-size: 12px;
+}
+
+.form-control {
+    background-color: #fff !important;
+    background-image: none !important;
+}
+
+#surveyElement {
+  font-size: 12px !important;
+  position:fixed;
+  top:0; /* or whatever the header height is */
+  right:0;
+  bottom:0;
+  left:0;
+  overflow:auto;
+}
+
+/*#canvas {
+
+}
+#background {
+    display: none;
+}*/
+/*#ballon {
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    cursor: move;
+    opacity: 0.5;
+}*/
